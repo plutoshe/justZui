@@ -17,12 +17,31 @@ Post请求，/commentCreate(location(number), groupType(Number), [title(String)])
 为某个组添加吐槽，groupName是缺省项，当为0时，不需要输入
 
 Post请求，/groupQuery(location(number))
-查询某个大组的所有小组，返回{id:String, title : String, groupType : Number, lastComment : String, updateTime : Date}
+查询某个大组的所有小组，返回{_id:String, title : String, groupType : Number, lastComment : String, updateTime : Date}
 
-Post请求，/groupCreate(location(String),  title(String), commment(String))
+Post请求，/groupCreate(location(number),  title(String), comment(String))
 为某个大组创建小组并带有一条吐槽
 
 Get请求，/locationQuery()
-查询所有大组，返回{id:String, location : String, groupType(Number), lastComment : String, updateTime : Date}
+查询所有大组，返回{_id:String, location : Number, title : String, groupType(Number), lastComment : String, updateTime : Date}
 
 
+
+＃＃＃＃＃＃新加功能，可不用＃＃＃＃＃＃＃
+
+
+post请求, /groupExist(location(number), title(String))
+查看一个小组是否存在
+返回{ exist : Number}，0为不存在，1为存在
+
+post请求, /groupUpgrade(location(number), title(String))
+为一个小组升级
+
+post请求, /groupUpgrade(location(number), title(String))
+为一个小组降级
+
+post请求，/locationCreate(location(number), locationName(String))
+更新一个新的大组的名字，location为编号，locationName为名字
+
+post请求，/locationUpdate(location(number), locationName(String))
+创建一个新的大组，location为编号，locationName为名字

@@ -13,8 +13,8 @@ var commentModel = models.comment;//db.model("comment", models.comment);
 //var groupModel = db.model("group", models.comment);
 //locationModel.save()
 var len = 10;
- commentModel.find({groupType : {"$gt" : 0}}).remove().exec();
-//commentModel.save(doc);
+ //commentModel.find({groupType : {"$ge" : 0}}).remove().exec();
+// /commentModel.save(doc);
 
 
 router.post('/commentQueryNew', function(req, res) {
@@ -27,10 +27,12 @@ router.post('/commentQueryNew', function(req, res) {
 	}
 	commentModel.findOne(requirement, function (err, data) {
   		if (err) return console.error(err);
-  		var result = {data : []};
-  		for (var i = data.comment.length - 1; i >= data.comment.length - len && i >= 0; i--) {
-  			result.data.push(data.comment[i]);
-  		}
+  		var result = [];
+  		if (data) {
+	  		for (var i = data.comment.length - 1; i >= data.comment.length - len && i >= 0; i--) {
+	  			result.push(data.comment[i]);
+	  		}
+	  	}
   		res.send(result);
   		
   		res.end();
@@ -48,10 +50,12 @@ router.post('/commentQueryNext', function(req, res) {
 	commentModel.findOne(requirement,  function (err, data) {
 
   		if (err) return console.error(err);
-  		var result = {data:[]};
-  		for (var i = req.body.index - 1; i >= req.body.index - len && i >= 0; i--) {
-  			result.data.push(data.comment[i]);
-  		}
+  		var result =[];
+  		if (data) {
+	  		for (var i = req.body.index - 1; i >= req.body.index - len && i >= 0; i--) {
+	  			result.push(data.comment[i]);
+	  		}
+	  	}
   		res.send(result);
   		
   		res.end();
@@ -99,10 +103,11 @@ router.post('/commentLike', function(req, res) {
 	}
 	commentModel.findOne(requirement,  function (err, data) {
   		if (err) return console.error(err);
-  		
-  		data.comment[req.body.index].like++;
-  		data.save();
-  		res.end();
+  		if (data) {
+	  		data.comment[req.body.index].like++;
+	  		data.save();
+	  		res.end();
+	  	}
 	});
 });
 
@@ -118,21 +123,23 @@ router.post('/commentCreate', function(req, res) {
 	
 	commentModel.findOne(requirement, function (err, data) {
   		if (err) return console.error(err);
-  		console.log(data);
-  		data.comment.push({ index : data.comment.length, body: req.body.content, updateTime: new Date(), like : 0 });
-  		data.updateTime = new Date();
-  		data.lastComment = req.body.content;
-  		data.sum++;
-  		data.save();
+  		//console.log(data);
+  		if (data) {
+	  		data.comment.push({ index : data.comment.length, body: req.body.content, updateTime: new Date(), like : 0 });
+	  		data.updateTime = new Date();
+	  		data.lastComment = req.body.content;
+	  		data.sum++;
+	  		data.save();
+	  	}
   		//res.send(data);
   		res.end();
 	});
 });
 
 router.post('/groupQuery', function(req, res) {
-	console.log(req);
+	// console.log(req);
 	commentModel.find({location : req.body.location, groupType : 2, updateTime : {"$gt": new Date() - 3*24*60*60*1000/*3*24*60*60*1000*/}}, '_id title groupType lastComment updateTime', function (err, data) {
-		console.log(data);
+		// console.log(data);
 		if (err) return console.error(err);
 
   		res.send(data);
@@ -143,7 +150,8 @@ router.post('/groupQuery', function(req, res) {
 router.post('/groupExist', function(req, res) {
 	commentModel.findOne({location : req.body.location, title : req.body.title}, function(err, data) {
 		if (err) return console.error(err);
-		res.send(0);
+		if (data) res.send({ exist : 1}); else res.send({ exist : 0});
+		res.end();
 	});
 });
 
@@ -152,7 +160,7 @@ router.post('/groupCreate', function(req, res) {
 	
 	var newGroup = new commentModel({location : req.body.location, comment : [{index : 0, body : req.body.comment}], groupType : 2, title : req.body.title, lastComment : req.body.comment});
 	
-	console.log(newGroup);
+	// console.log(newGroup);
 	newGroup.save();
 	res.end();
 });
@@ -179,15 +187,25 @@ router.post('/locationUpdate', function(req, res) {
 	})
 });
 
-router.post('/gourpUpgrade', function(req, res) {
-	locationModel.findOne({location : req.body.location, groupType : 2,title : req.body.title}, function(err,data) {
-		data.groupType = 1;
+router.post('/groupUpgrade', function(req, res) {
+	//console.log(req.body.location, req.body.title);
+	commentModel.findOne({location : req.body.location, groupType : 2,title : req.body.title}, function(err,data) {
+		if (data) {
+			data.groupType = 1;
+			data.save();
 
+		}
+		res.end();
 	});
 });
-router.post('/gourpDegrade', function(req, res) {
-	locationModel.findOne({location : req.body.location, groupType : 1,title : req.body.title}, function(err,data) {
-		data.groupType = 2;
+
+router.post('/groupDegrade', function(req, res) {
+	commentModel.findOne({location : req.body.location, groupType : 1,title : req.body.title}, function(err,data) {
+		if (data) {
+			data.groupType = 2;
+			data.save();
+		}
+		res.end();
 	});
 });
 module.exports = router;

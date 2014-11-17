@@ -38,9 +38,13 @@ app.post('/commentCreate', query);
 
 app.post('/locationCreate', query);
 app.post('/locationUpdate', query);
+app.post('/groupExist', query);
+
 
 app.post('/groupQuery', query);
 app.post('/groupCreate', query);
+app.post('/groupUpgrade', query);
+app.post('/groupDegrade', query);
 
 app.get('/locationQuery', query);
 
