@@ -12,6 +12,7 @@ var query = require('./routes/query');
 var MongoStore = require('connect-mongo');
 
 var app = express();
+console.log("begin");
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -35,6 +36,8 @@ app.post('/commentQueryNextById', query);
 app.post('/commentLike', query);
 app.post('/commentCreate', query);
 
+app.post('/locationCreate', query);
+app.post('/locationUpdate', query);
 
 app.post('/groupQuery', query);
 app.post('/groupCreate', query);
