@@ -19,6 +19,8 @@ var len = 10;
 
 router.post('/commentQueryNew', function(req, res) {
 	var requirement;
+	//console.log(req);
+	console.log(req.body);
 	if (req.body.groupType == 0) {
 		requirement = {location : req.body.location, groupType : req.body.groupType};
 	}
@@ -41,6 +43,8 @@ router.post('/commentQueryNew', function(req, res) {
 
 router.post('/commentQueryNext', function(req, res) {
 	var requirement;
+	//console.log(req);
+	console.log(req.body);
 	if (req.body.groupType == 0) {
 		requirement = {location : req.body.location, groupType : req.body.groupType};
 	}

@@ -10,27 +10,33 @@ import urllib
 # params = urllib.urlencode({'location' : 1, 'comment' : "测试4", 'title' : "饿死了"})
 # f = urllib.urlopen("http://localhost:1234/groupCreate",params)
 # print f.read()
-params = urllib.urlencode({'location' : 1, 'title' : "饿死了"})
-f = urllib.urlopen("http://localhost:1234/groupDegrade/",params)
+
+params = urllib.urlencode({'location' : 1, 'title' : "快下课", 'groupType' : 2, 'index' : 4})
+f = urllib.urlopen("http://localhost:1234/commentQueryNext/",params)
 print f.read()
 
 
-params = urllib.urlencode({'location' : 1})
-f = urllib.urlopen("http://localhost:1234/groupQuery/",params)
-print f.read()
-
-params = urllib.urlencode({'location' : 1, 'title' : "饿死了"})
-f = urllib.urlopen("http://localhost:1234/groupExist/",params)
-print f.read()
+# params = urllib.urlencode({'location' : 1, 'title' : "饿死了"})
+# f = urllib.urlopen("http://localhost:1234/groupDegrade/",params)
+# print f.read()
 
 
-params = urllib.urlencode({'location' : 1, 'title' : "1饿死了"})
-f = urllib.urlopen("http://localhost:1234/groupExist/",params)
-print f.read()
+# params = urllib.urlencode({'location' : 1})
+# f = urllib.urlopen("http://localhost:1234/groupQuery/",params)
+# print f.read()
 
-#params = urllib.urlencode({'location' : 1, 'title' : "1饿死了"})
-f = urllib.urlopen("http://localhost:1234/locationQuery/")
-print f.read()
+# params = urllib.urlencode({'location' : 1, 'title' : "饿死了"})
+# f = urllib.urlopen("http://localhost:1234/groupExist/",params)
+# print f.read()
+
+
+# params = urllib.urlencode({'location' : 1, 'title' : "1饿死了"})
+# f = urllib.urlopen("http://localhost:1234/groupExist/",params)
+# print f.read()
+
+# #params = urllib.urlencode({'location' : 1, 'title' : "1饿死了"})
+# f = urllib.urlopen("http://localhost:1234/locationQuery/")
+# print f.read()
 
 # commentCreate
 
@@ -87,17 +93,17 @@ print f.read()
 
 
 # commentQueryNew
-params = urllib.urlencode({'location' : 1, "groupType": 0, "title" : "快下课", "index" : 4})
-f = urllib.urlopen("http://localhost:1234/commentQueryNew",params)
-print f.read()
+# params = urllib.urlencode({'location' : 1, "groupType": 0, "title" : "快下课", "index" : 4})
+# f = urllib.urlopen("http://localhost:1234/commentQueryNew",params)
+# print f.read()
 
-params = urllib.urlencode({'location' : 1, "groupType": 2, "title" : "快下课", "index" : 4})
-f = urllib.urlopen("http://localhost:1234/commentQueryNew",params)
-print f.read()
+# params = urllib.urlencode({'location' : 1, "groupType": 2, "title" : "快下课", "index" : 4})
+# f = urllib.urlopen("http://localhost:1234/commentQueryNew",params)
+# print f.read()
 
-params = urllib.urlencode({'location' : 1, "groupType": 4, "title" : "快下课", "index" : 4})
-f = urllib.urlopen("http://localhost:1234/commentQueryNew",params)
-print f.read()
+# params = urllib.urlencode({'location' : 1, "groupType": 4, "title" : "快下课", "index" : 4})
+# f = urllib.urlopen("http://localhost:1234/commentQueryNew",params)
+# print f.read()
 
 
 
