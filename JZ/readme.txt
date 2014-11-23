@@ -27,7 +27,7 @@ Get请求，/locationQuery()
 
 
 
-＃＃＃＃＃＃新加功能，可不用＃＃＃＃＃＃＃
+＃＃＃＃＃＃＃＃＃＃＃＃＃＃新加功能，可不用＃＃＃＃＃＃＃＃＃＃＃＃＃＃
 
 
 post请求, /groupExist(location(number), title(String))
@@ -45,5 +45,22 @@ post请求，/locationCreate(location(number), locationName(String))
 
 post请求，/locationUpdate(location(number), locationName(String))
 创建一个新的大组，location为编号，locationName为名字
+
+
+
+＃＃＃＃＃＃＃＃＃＃＃＃新要求的三个功能＃＃＃＃＃＃＃＃＃＃＃＃＃＃
+
+Post请求，/commentDislike(location(number), groupType(Number), [title(String)], index(Number))
+为某个组的某条吐槽点赞title是缺省项，当为0时，不需要输入
+
+Post请求，/commentQuerySection(location(number), groupType(binary),  [title(string)], indexNew(Number), indexOld(Number))
+查询某个地点某个组的一段区间的吐槽,title是缺省项，当为0时，不需要输入，indexNew表示最新的index, indexOld表示最旧的区间，indexNew>indexOld。
+返回一个数组,数组类型为{ index : Number,  body: String, date:Date }
+
+Post请求，/commentQueryUpdated(location(number), groupType(binary),  [title(string)], index(Number))
+查询某个地点某个组的某条吐槽之后更新的吐槽,title是缺省项，当为0时，不需要输入，index表示查询吐槽的编号。
+返回一个数组,数组类型为{ index : Number,  body: String, date:Date }
+
+
 
 
