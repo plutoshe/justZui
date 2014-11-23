@@ -11,8 +11,8 @@ import urllib
 # f = urllib.urlopen("http://localhost:1234/groupCreate",params)
 # print f.read()
 
-params = urllib.urlencode({'location' : 1, 'title' : "快下课", 'groupType' : 2, 'index' : 4})
-f = urllib.urlopen("http://localhost:1234/commentQueryNext/",params)
+params = urllib.urlencode({'location' : 1, 'title' : "快下课", 'groupType' : 2, 'index' : 6, 'indexNew' : 8})
+f = urllib.urlopen("http://localhost:1234/commentQueryUpdated/",params)
 print f.read()
 
 

@@ -67,6 +67,62 @@ router.post('/commentQueryNext', function(req, res) {
 });
 
 
+
+
+router.post('/commentQuerySection', function(req, res) {
+	var requirement;
+	//console.log(req);
+	//console.log("!", req.body);
+	if (req.body.groupType == 0) {
+		requirement = {location : req.body.location, groupType : req.body.groupType};
+	}
+	else {
+		requirement = {location : req.body.location, groupType : req.body.groupType, title: req.body.title};
+	}
+	
+	commentModel.findOne(requirement,  function (err, data) {
+
+  		if (err) return console.error(err);
+  		var result =[];
+  		if (data) {
+
+	  		for (var i = req.body.indexNew; i >= req.body.indexOld && i >= 0; i--) {
+	  			result.push(data.comment[i]);
+	  		}
+	  	}
+  		res.send(result);
+  		
+  		res.end();
+	});
+});
+
+
+router.post('/commentQueryUpdated', function(req, res) {
+	var requirement;
+	//console.log(req);
+	console.log(req.body);
+	if (req.body.groupType == 0) {
+		requirement = {location : req.body.location, groupType : req.body.groupType};
+	}
+	else {
+		requirement = {location : req.body.location, groupType : req.body.groupType, title: req.body.title};
+	}
+	commentModel.findOne(requirement,  function (err, data) {
+
+  		if (err) return console.error(err);
+  		var result =[];
+  		if (data) {
+	  		for (var i = data.comment.length - 1; i >= req.body.index && i >= 0; i--) {
+	  			result.push(data.comment[i]);
+	  		}
+	  	}
+  		res.send(result);
+  		
+  		res.end();
+	});
+});
+
+
 // router.post('/commentQueryNewById', function(req, res) {
 // 	console.log(req.body.id);
 // 	commentModel.findById(req.body.id,  function (err, data) {
@@ -109,6 +165,25 @@ router.post('/commentLike', function(req, res) {
   		if (err) return console.error(err);
   		if (data) {
 	  		data.comment[req.body.index].like++;
+	  		data.save();
+	  		res.end();
+	  	}
+	});
+});
+
+
+router.post('/commentDislike', function(req, res) {
+	var requirement;
+	if (req.body.groupType == 0) {
+		requirement = {location : req.body.location, groupType : req.body.groupType};
+	}
+	else {
+		requirement = {location : req.body.location, groupType : req.body.groupType, title: req.body.title};
+	}
+	commentModel.findOne(requirement,  function (err, data) {
+  		if (err) return console.error(err);
+  		if (data) {
+	  		data.comment[req.body.index].like--;
 	  		data.save();
 	  		res.end();
 	  	}
@@ -178,7 +253,7 @@ router.get('/locationQuery', function(req, res) {
 	
 });
 router.post('/locationCreate', function(req, res) {
-	var newGroup = new commentModel({location : req.body.location, comment : [""], groupType : 0, title : req.body.locationName, lastComment : ""});
+	var newGroup = new commentModel({location : req.body.location, comment : [{index : 0, body : ""}], groupType : 0, title : req.body.locationName, lastComment : ""});
 	newGroup.save();
 	res.end();
 });

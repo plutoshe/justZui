@@ -29,11 +29,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/users', users);
 app.post('/commentQueryNew', query);
 app.post('/commentQueryNext', query);
+app.post('/commentQuerySection', query);
+app.post('/commentQueryUpdated', query);
 
 
 app.post('/commentQueryNewById', query);
 app.post('/commentQueryNextById', query);
 app.post('/commentLike', query);
+app.post('/commentDislike', query);
 app.post('/commentCreate', query);
 
 app.post('/locationCreate', query);

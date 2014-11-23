@@ -13,7 +13,7 @@ Post请求，/commentQueryNext(location(number), groupType(binary),  [title(stri
 Post请求，/commentLike(location(number), groupType(Number), [title(String)], index(Number))
 为某个组的某条吐槽点赞title是缺省项，当为0时，不需要输入
 
-Post请求，/commentCreate(location(number), groupType(Number), [title(String)])
+Post请求，/commentCreate(location(number), groupType(Number), [title(String)], content)
 为某个组添加吐槽，groupName是缺省项，当为0时，不需要输入
 
 Post请求，/groupQuery(location(number))
@@ -45,3 +45,5 @@ post请求，/locationCreate(location(number), locationName(String))
 
 post请求，/locationUpdate(location(number), locationName(String))
 创建一个新的大组，location为编号，locationName为名字
+
+
