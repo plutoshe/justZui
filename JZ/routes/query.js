@@ -20,7 +20,7 @@ var len = 10;
 router.post('/commentQueryNew', function(req, res) {
 	var requirement;
 	//console.log(req);
-	console.log(req.body);
+	//console.log(req.body);
 	if (req.body.groupType == 0) {
 		requirement = {location : req.body.location, groupType : req.body.groupType};
 	}
@@ -44,7 +44,7 @@ router.post('/commentQueryNew', function(req, res) {
 router.post('/commentQueryNext', function(req, res) {
 	var requirement;
 	//console.log(req);
-	console.log(req.body);
+	// console.log(req.body);
 	if (req.body.groupType == 0) {
 		requirement = {location : req.body.location, groupType : req.body.groupType};
 	}
@@ -100,7 +100,7 @@ router.post('/commentQuerySection', function(req, res) {
 router.post('/commentQueryUpdated', function(req, res) {
 	var requirement;
 	//console.log(req);
-	console.log(req.body);
+	// console.log(req.body);
 	if (req.body.groupType == 0) {
 		requirement = {location : req.body.location, groupType : req.body.groupType};
 	}
@@ -202,16 +202,24 @@ router.post('/commentCreate', function(req, res) {
 	
 	commentModel.findOne(requirement, function (err, data) {
   		if (err) return console.error(err);
-  		//console.log(data);
+  		// console.log(data);
+  		var indexPre;
   		if (data) {
-	  		data.comment.push({ index : data.comment.length, body: req.body.content, updateTime: new Date(), like : 0 });
+  			indexPre = {indexNew : data.comment.length};
+  			data.comment.push({ index : data.comment.length, body: req.body.content, updateTime: new Date(), like : 0 });
+
 	  		data.updateTime = new Date();
 	  		data.lastComment = req.body.content;
 	  		data.sum++;
 	  		data.save();
-	  	}
+	  		res.send(indexPre);
+  			res.end();
+	  		
+
+	  	} else res.end();
+	  	
   		//res.send(data);
-  		res.end();
+  		
 	});
 });
 
@@ -236,12 +244,20 @@ router.post('/groupExist', function(req, res) {
 
 
 router.post('/groupCreate', function(req, res) {
-	
-	var newGroup = new commentModel({location : req.body.location, comment : [{index : 0, body : req.body.comment}], groupType : 2, title : req.body.title, lastComment : req.body.comment});
-	
+	commentModel.findOne({location : req.body.location, title : req.body.title}, function(err, data) {
+		if (data) {
+			res.send("existed");
+			res.end();
+		}
+		else {
+			var newGroup = new commentModel({sum : 0, location : req.body.location, comment : [], groupType : 2, title : req.body.title, lastComment : ""});
+			newGroup.save();
+			res.send("success");
+			res.end();
+		}
+		
+	});
 	// console.log(newGroup);
-	newGroup.save();
-	res.end();
 });
 
 router.get('/locationQuery', function(req, res) {
@@ -253,7 +269,7 @@ router.get('/locationQuery', function(req, res) {
 	
 });
 router.post('/locationCreate', function(req, res) {
-	var newGroup = new commentModel({location : req.body.location, comment : [{index : 0, body : ""}], groupType : 0, title : req.body.locationName, lastComment : ""});
+	var newGroup = new commentModel({location : req.body.location, comment : [], groupType : 0, title : req.body.locationName, lastComment : ""});
 	newGroup.save();
 	res.end();
 });

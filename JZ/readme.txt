@@ -19,8 +19,8 @@ Post请求，/commentCreate(location(number), groupType(Number), [title(String)], c
 Post请求，/groupQuery(location(number))
 查询某个大组的所有小组，返回{_id:String, title : String, groupType : Number, lastComment : String, updateTime : Date}
 
-Post请求，/groupCreate(location(number),  title(String), comment(String))
-为某个大组创建小组并带有一条吐槽
+Post请求，/groupCreate(location(number),  title(String))
+为某个大组创建小组
 
 Get请求，/locationQuery()
 查询所有大组，返回{_id:String, location : Number, title : String, groupType(Number), lastComment : String, updateTime : Date}
@@ -41,10 +41,10 @@ post请求, /groupUpgrade(location(number), title(String))
 为一个小组降级
 
 post请求，/locationCreate(location(number), locationName(String))
-更新一个新的大组的名字，location为编号，locationName为名字
+创建一个新的大组，location为编号，locationName为名字
 
 post请求，/locationUpdate(location(number), locationName(String))
-创建一个新的大组，location为编号，locationName为名字
+更新一个新的大组的名字，location为编号，locationName为名字
 
 
 
