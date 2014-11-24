@@ -14,13 +14,13 @@ Post请求，/commentLike(location(number), groupType(Number), [title(String)], ind
 为某个组的某条吐槽点赞title是缺省项，当为0时，不需要输入
 
 Post请求，/commentCreate(location(number), groupType(Number), [title(String)], content)
-为某个组添加吐槽，groupName是缺省项，当为0时，不需要输入
+为某个组添加吐槽，groupName是缺省项，当为0时，不需要输入，返回{indexNew: Number}
 
 Post请求，/groupQuery(location(number))
 查询某个大组的所有小组，返回{_id:String, title : String, groupType : Number, lastComment : String, updateTime : Date}
 
 Post请求，/groupCreate(location(number),  title(String))
-为某个大组创建小组
+为某个大组创建小组，
 
 Get请求，/locationQuery()
 查询所有大组，返回{_id:String, location : Number, title : String, groupType(Number), lastComment : String, updateTime : Date}
