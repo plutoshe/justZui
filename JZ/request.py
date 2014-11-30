@@ -21,9 +21,9 @@ import urllib
 # print f.read()
 
 
-# params = urllib.urlencode({'location' : 1})
-# f = urllib.urlopen("http://localhost:1234/groupQuery/",params)
-# print f.read()
+params = urllib.urlencode({'location' : 1})
+f = urllib.urlopen("http://182.92.243.187:1234/groupQuery/",params)
+print f.read()
 
 # params = urllib.urlencode({'location' : 1, 'title' : "饿死了"})
 # f = urllib.urlopen("http://localhost:1234/groupExist/",params)
@@ -35,18 +35,22 @@ import urllib
 # print f.read()
 
 # #params = urllib.urlencode({'location' : 1, 'title' : "1饿死了"})
-# f = urllib.urlopen("http://localhost:1234/locationQuery/")
-# print f.read()
+ #f = urllib.urlopen("http://localhost:1234/locationQuery/")
+ #print f.read()
 
 # commentCreate
-params = urllib.urlencode({'location' : 9, "groupType": 2, "title" : "阿拉拉1"})
-f = urllib.urlopen("http://182.92.243.187:1234/groupCreate",params)
-print f.read()
 
+#params = urllib.urlencode({'location' : 5, "locationName": "理教、理科楼"})
+#f = urllib.urlopen("http://localhost:1234/locationQuery")
+#print f.read()
 
-params = urllib.urlencode({'location' : 9, "groupType": 2, "title" : "阿拉拉1", "content" : "测试www"})
-f = urllib.urlopen("http://182.92.243.187:1234/commentCreate",params)
-print f.read()
+# params = urllib.urlencode({'location' : 8, "locationName": "宿舍区"})
+# f = urllib.urlopen("http://182.92.243.187:1234/locationUpdate",params)
+# print f.read()
+
+#params = urllib.urlencode({'location' : 9, "groupType": 2, "title" : "阿拉拉1", "content" : "测试www"})
+#f = urllib.urlopen("http://182.92.243.187:1234/commentCreate",params)
+#print f.read()
 # params = urllib.urlencode({'location' : 1, "groupType": 2, "title" : "快下课", "content" : "测试3"})
 # f = urllib.urlopen("http://localhost:1234/commentCreate",params)
 # print f.read()

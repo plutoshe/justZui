@@ -1,3 +1,7 @@
+var groupPeriod = 3*24*60*60*1000;
+var trans=[5,6,8,4,3,9,1,7,2,0];
+
+
 var express = require('express');
 var router = express.Router();
 // var mongodb = require("mongodb");
@@ -5,7 +9,6 @@ var mongoose = require('mongoose');
 var db = mongoose.connect('localhost', 'justZui');
 // mongoose.connect('mongodb://localhost/justZui');
 var models = require('../models/comment');
-
 
 // var locationModel = models.location;
 //console.log(models.comment);
@@ -225,7 +228,7 @@ router.post('/commentCreate', function(req, res) {
 
 router.post('/groupQuery', function(req, res) {
 	// console.log(req);
-	commentModel.find({location : req.body.location, groupType : 2, updateTime : {"$gt": new Date() - 3*24*60*60*1000/*3*24*60*60*1000*/}}, '_id title groupType lastComment updateTime', function (err, data) {
+	commentModel.find({location : req.body.location, groupType : 2, updateTime : {"$gt": new Date() - groupPeriod/*3*24*60*60*1000*/}}, '_id title groupType lastComment updateTime').sort({updateTime : 1}).exec(function (err, data) {
 		// console.log(data);
 		if (err) return console.error(err);
 
@@ -245,14 +248,17 @@ router.post('/groupExist', function(req, res) {
 
 router.post('/groupCreate', function(req, res) {
 	commentModel.findOne({location : req.body.location, title : req.body.title}, function(err, data) {
+		var returnJson;
 		if (data) {
-			res.send("existed");
+			returnJson = {status : "existed"};
+			res.send(returnJson);
 			res.end();
 		}
 		else {
+			returnJson = {status : "success"};
 			var newGroup = new commentModel({sum : 0, location : req.body.location, comment : [], groupType : 2, title : req.body.title, lastComment : ""});
 			newGroup.save();
-			res.send("success");
+			res.send(returnJson);
 			res.end();
 		}
 		
@@ -260,14 +266,24 @@ router.post('/groupCreate', function(req, res) {
 	// console.log(newGroup);
 });
 
+
+
 router.get('/locationQuery', function(req, res) {
-	 commentModel.find({groupType : {"$lt" : 2}}, '_id location title groupType lastComment updateTime', function (err, data) {
+
+	 commentModel.find({groupType : {"$lt" : 2}}, '_id location title groupType lastComment updateTime').sort({location : 1}).exec(function (err, data) {
 	 	if (err) return console.error(err);
-   		res.send(data);
+	 	
+	 	var sdata = new Array();
+	 	for (var i = 0; i < 10; i++) 
+	 		sdata.push(data[trans[i]]);
+   		res.send(sdata);
+   		
    		res.end();
 	 });
 	
 });
+
+
 router.post('/locationCreate', function(req, res) {
 	var newGroup = new commentModel({location : req.body.location, comment : [], groupType : 0, title : req.body.locationName, lastComment : ""});
 	newGroup.save();
