@@ -1,6 +1,7 @@
 var groupPeriod = 3*24*60*60*1000;
+var newTrans = [0,1,2,3,4,5];
 var trans=[0,5,6,8,4,3,9,1,7,2];
-var version = '1.12'
+var version = '1.14';
 
 var express = require('express');
 var router = express.Router();
@@ -13,11 +14,47 @@ var models = require('../models/comment');
 // var locationModel = models.location;
 //console.log(models.comment);
 var commentModel = models.comment;//db.model("comment", models.comment);
+var versionModel = models.newVersion;
+// var versionModel = mongoose.model("version");
 //var groupModel = db.model("group", models.comment);
 //locationModel.save()
 var len = 10;
  //commentModel.find({groupType : {"$ge" : 0}}).remove().exec();
 // /commentModel.save(doc);
+
+// var inW = new versionModel();
+// inW.version = 1.14;
+// inW.download = 0;
+// inW.save();
+
+router.post('/versionUpdate', function(req, res){
+	versionModel.findOne({},function (err,data){
+		data.version = req.body.version;
+		data.save();
+	});
+});
+
+
+router.get('/downloadUpdate', function(req, res){
+	versionModel.findOne(function (err,data){		
+		res.send(data);
+		if (data) {
+			data.download++;
+			data.save();
+		}
+		
+		res.end();
+	});
+});
+
+router.get('/getDownload', function(req, res){
+	versionModel.find(function (err,data){
+		console.log(data);
+		res.send(data);
+		res.end();
+	});
+});
+
 
 
 router.post('/commentQueryNew', function(req, res) {
@@ -115,7 +152,8 @@ router.post('/commentQueryUpdated', function(req, res) {
 		requirement = {location : req.body.location, groupType : req.body.groupType, title: req.body.title};
 	}
 	commentModel.findOne(requirement,  function (err, data) {
-
+		// console.log(requirement);
+		// console.log(data);
   		if (err) return console.error(err);
   		var result =[];
   		if (data) {
@@ -123,6 +161,7 @@ router.post('/commentQueryUpdated', function(req, res) {
 	  			result.push(data.comment[i]);
 	  		}
 	  	}
+	  	// console.log(result);
   		res.send(result);
   		
   		res.end();
@@ -199,17 +238,18 @@ router.post('/commentDislike', function(req, res) {
 
 router.post('/commentCreate', function(req, res) {
 	var requirement;
-	
+	console.log(req.body);
 	if (req.body.groupType == 0) {
 		requirement = {location : req.body.location, groupType : req.body.groupType};
 	}
 	else {
 		requirement = {location : req.body.location, groupType : req.body.groupType, title: req.body.title};
 	}
+	console.log(requirement);
 	
 	commentModel.findOne(requirement, function (err, data) {
   		if (err) return console.error(err);
-  		// console.log(data);
+  		 console.log(data);
   		var indexPre;
   		if (data) {
   			indexPre = {indexNew : data.comment.length};
@@ -252,9 +292,12 @@ router.post('/groupExist', function(req, res) {
 
 
 router.post('/groupCreate', function(req, res) {
+	
 	commentModel.findOne({location : req.body.location, title : req.body.title}, function(err, data) {
 		var returnJson;
+		
 		if (data) {
+			console.log("!!");
 			returnJson = {status : "existed"};
 			data.updateTime = new Date();
 			data.save();
@@ -284,8 +327,8 @@ router.get('/locationQuery', function(req, res) {
 	 	if (err) return console.error(err);
 	 	
 	 	var sdata = new Array();
-	 	for (var i = 0; i < 10; i++) 
-	 		sdata.push(data[trans[i]]);
+	 	for (var i = 0; i < newTrans.length; i++) 
+	 		sdata.push(data[newTrans[i]]);
    		res.send(sdata);
    		
    		res.end();

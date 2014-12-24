@@ -28,6 +28,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/', routes.route);
 //app.use('/users', users);
 
+//download control
+app.post('/versionUpdate', query);
+app.get('/downloadUpdate', query);
+app.get('/getDownload', query);
 // comments query
 app.post('/commentQueryNew', query);
 app.post('/commentQueryNext', query);

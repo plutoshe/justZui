@@ -71,11 +71,11 @@ Get请求，versionGet()
 
 Post请求，/commentLikeQuerySection(location(number), groupType(binary),  [title(string)], indexNew(Number), indexOld(Number))
 查询某个地点某个组的一段区间的吐槽的赞,title是缺省项，当为0时，不需要输入，indexNew表示最新的index, indexOld表示最旧的区间，indexNew>indexOld。
-返回一个数组,数组类型为{ index : Number,  body: String, date:Date }
+返回一个数组,数组类型为{ index : Number, like : Number }
 
 Post请求，/commentLikeQueryNew(location(number), groupType(binary),  [title(string)])
 查询某个地点某个组的最新的len条吐槽的赞,title是缺省项，当为0时，不需要输入。
-返回一个数组，数组类型为{ index : Number,  like : Number, body: String, date:Date }
+返回一个数组，数组类型为{ index : Number,  like : Number}
 
 Post请求，/commentLikeQueryNext(location(number), groupType(binary),  [title(string)], index(Number))
 查询某个地点某个组的某条吐槽之后的len条吐槽的赞,title是缺省项，当为0时，不需要输入，index表示吐槽的编号。
@@ -85,6 +85,15 @@ Post请求，/commentLikeQueryNext(location(number), groupType(binary),  [title(
 Post请求，/commentLikeQueryUpdated(location(number), groupType(binary),  [title(string)], index(Number))
 查询某个地点某个组的某条吐槽之后更新的吐槽的赞,title是缺省项，当为0时，不需要输入，index表示查询吐槽的编号。
 返回一个数组,数组类型为{ index : Number,  like : Number }
+
+
+
+
+===============================12/24/2014===============================
+===============================version4.1===============================
+updated Weibo, Weiming regular updater
+
+
 
 
 
