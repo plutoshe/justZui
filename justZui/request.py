@@ -37,6 +37,54 @@
 # f=urllib.urlopen("http://localhost:1234/locationQuery")
 import urllib
 import json
+
+# params = urllib.urlencode({'version' : 1.14, "update_content" : "无"})
+# f = urllib.urlopen("http://localhost:1234/specificVersion", params)
+# print f.read()
+# params = urllib.urlencode({'version' : 1.15, "update_content" : "无"})
+# f = urllib.urlopen("http://localhost:1234/versionUpdate", params)
+# print f.read()
+
+# params = urllib.urlencode({"locationName" : "新的bbs", "subclass" : 1})
+# f = urllib.urlopen("http://localhost:1234/newLocationCreate", params)
+# print f.read()
+# params = urllib.urlencode({"locationName" : "新的bbs", "subclass" : 4})
+# f = urllib.urlopen("http://localhost:1234/specificLocationQuery", params)
+# print f.read()
+
+
+# params = urllib.urlencode({'location' : 0, "title" : "f啊D8@#!  123123@(*&^&  &"})
+# f = urllib.urlopen("http://localhost:1234/groupCreate", params)
+
+
+# params = urllib.urlencode({'location' : 0, "groupType" : 2, "mark" : 0, "title" : "f啊D8@#!  123123@(*&^&  &", 'content' : "111吐&&&&&&槽&dddd   32432!@#%^@#&@*@*"})
+# f = urllib.urlopen("http://localhost:1234/commentCreate", params)
+# print f.read()
+
+
+# params = urllib.urlencode({'location' : 0, "groupType" : 2, "mark" : 1, "title" : "f啊D8@#!  123123@(*&^&  &", 'content' : "111吐&&&&&&槽&dddd   32432!@#%^@#&@*@*"})
+# f = urllib.urlopen("http://localhost:1234/commentCreate", params)
+# print f.read()
+
+
+# params = urllib.urlencode({'location' : 0, "groupType" : 2, "mark" : 0, "title" : "f啊D8@#!  123123@(*&^&  &", 'content' : "111吐&&&&&&槽&dddd   32432!@#%^@#&@*@*"})
+# f = urllib.urlopen("http://localhost:1234/commentCreate", params)
+# print f.read()
+
+
+# params = urllib.urlencode({'location' : 0, "groupType" : 2, "mark" : 1, "title" : "f啊D8@#!  123123@(*&^&  &", 'content' : "111吐&&&&&&槽&dddd   32432!@#%^@#&@*@*"})
+# f = urllib.urlopen("http://localhost:1234/commentCreate", params)
+# print f.read()
+
+
+# f = urllib.urlopen("http://localhost:1234/versionGet")
+# print f.read()
+
+params = urllib.urlencode({'index' : 0, 'location' : 0, "groupType" : 2, "mark" : 1, "title" : "f啊D8@#!  123123@(*&^&  &", 'content' : "111吐&&&&&&槽&dddd   32432!@#%^@#&@*@*"})
+f = urllib.urlopen("http://localhost:1234/commentLikeQueryUpdated", params)
+print f.read()
+
+
 # params = urllib.urlencode({'1' : 1, 'comment' : "测试1", 'title' : "马原课好无聊"})
 # params = urllib.urlencode({'id' : '546794844c0cdc2e1443095b', 'location' : 1, "groupType": 2, "title" : "快下课", "index" : 2})
 # params = urllib.urlencode({'id' : '546794844c0cdc2e1443095b', 'location' : 1, "groupType": 2, "title" : "快下课", "index" : 7})
@@ -105,16 +153,13 @@ import json
 # params = urllib.urlencode({'location' : 0, "title" : "f啊D8@#!  123123@(*&^&  &"})
 # f = urllib.urlopen("http://localhost:1234/groupCreate", params)
         
-# params = urllib.urlencode({'location' : 0, "groupType" : 2, "title" : "f啊D8@#!  123123@(*&^&  &", 'content' : "111吐&&&&&&槽&dddd   32432!@#%^@#&@*@*"})
-# f = urllib.urlopen("http://localhost:1234/commentCreate", params)
-# print f.read()
 
-params = urllib.urlencode({'location' : 0, "title" : "f啊D8@#!  123123@(*&^&  &"})
-f = urllib.urlopen("http://182.92.243.187:1234/groupCreate", params)
+# params = urllib.urlencode({'location' : 0, "title" : "f啊D8@#!  123123@(*&^&  &"})
+# f = urllib.urlopen("http://182.92.243.187:1234/groupCreate", params)
         
-params = urllib.urlencode({'location' : 0, "groupType" : 2, "title" : "f啊D8@#!  123123@(*&^&  &", 'content' : "111吐&&&&&&槽&dddd   32432!@#%^@#&@*@*"})
-f = urllib.urlopen("http://182.92.243.187:1234/commentCreate", params)
-print f.read()
+# params = urllib.urlencode({'location' : 0, "groupType" : 2, "title" : "f啊D8@#!  123123@(*&^&  &", 'content' : "111吐&&&&&&槽&dddd   32432!@#%^@#&@*@*"})
+# f = urllib.urlopen("http://182.92.243.187:1234/commentCreate", params)
+# print f.read()
 
 
 

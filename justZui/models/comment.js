@@ -8,9 +8,10 @@ var mongoose = require('mongoose');
 
 var comment = new mongoose.Schema ({
         location : Number,
-        comment: [{ index : Number,  body: String, date: {type:Date,default:Date.now}, like : {type : Number, default : 0} }],
+        comment: [{ mark : Number, index : Number,  body: String, date: {type:Date,default:Date.now}, like : {type : Number, default : 0} }],
         updateTime: { type: Date, default: Date.now },
         groupType : Number,
+        subclass : {type : Number, default : 0},
         title : {type : String, default : 0},
         sum : { type : Number, default : 0},
         lastComment : {type:String, default : ""}
@@ -19,8 +20,11 @@ var comment = new mongoose.Schema ({
 
 
 var version = new mongoose.Schema ({
+		isCurrent : Number,
         version : String,
-        download : Number
+        download : Number,
+        update_content : String,
+        locationNum : Number
 });
 
 //mongoose.model('entity', entity);

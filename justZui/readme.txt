@@ -89,9 +89,84 @@ Post请求，/commentLikeQueryUpdated(location(number), groupType(binary),  [tit
 
 
 
-===============================12/24/2014===============================
+===============================12/23/2014===============================
 ===============================version4.1===============================
 updated Weibo, Weiming regular updater
+
+
+===============================12/27/2014===============================
+===============================version4.1===============================
+########
+Updated Version Module
+current version type : { isCurrent : Number, version : String, download : Number, update_content : String, locationNum : Number }
+
+Post request:
+1.versionUpdate
+in : { version : String, update_content : String }
+out : None
+function : 更新版本
+
+2.downloadUpdate
+in : { version : String }
+out : None
+function : 更新一个版本的下载人数
+
+3.specificVersion
+in : { version : String }
+out : { locationNum : Number, isCurrent : Number, version : String, download : Number, update_content : String } 
+function: 得到特定版本的信息
+
+4.versionCreate
+in : { version : String, update_content : String, locationNum : Number }
+out : None
+function: 创建新版本
+
+
+Get request:
+1.versionGet
+in : None
+out : { locationNum : Number, isCurrent : Number, version : String, download : Number, update_content : String }
+function : 得到当前版本信息
+
+
+
+########
+Updated Comment and Locatio Module
+
+1.About comment 
+current comment type : { mark : Number, index : Number, like : Number,  body: String, date:Date }
+Description : 
+a) 关于commentQuery和commentLikeQuey的post请求的返回的评论多了一个属性mark，表明评论的类型
+
+b) commentCreate的post请求，需要在请求中加入mark属性
+
+
+2.About group 
+约定属性为(用subclass表示)
+0:基本大群
+1:基本BBS群
+2:直连BBS群
+3:放马群
+
+a) create
+<1>.基本大群创建
+Post request : locationCreate
+in : { LocationName : String}
+out : None
+
+<2>.特殊大群创建
+Post request : newLocationCreate
+in : {subclass : Number, LocationName : String}
+out : None
+
+b) 查询
+增加specificLargeGroupQuery请求，查询特定subclass的大群
+in : {subclass : Number }
+out : {_id:String, subclass : Number, title : String, groupType : Number, lastComment : String, updateTime : Date}
+
+
+
+
 
 
 

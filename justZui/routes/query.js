@@ -14,6 +14,7 @@ var models = require('../models/comment');
 // var locationModel = models.location;
 //console.log(models.comment);
 var commentModel = models.comment;//db.model("comment", models.comment);
+// var versionModel = models.newVersion;
 var versionModel = models.newVersion;
 // var versionModel = mongoose.model("version");
 //var groupModel = db.model("group", models.comment);
@@ -28,16 +29,57 @@ var len = 10;
 // inW.save();
 
 router.post('/versionUpdate', function(req, res){
-	versionModel.findOne({},function (err,data){
-		data.version = req.body.version;
+	versionModel.findOne({isCurrent:1},function (err,data){
+		data.isCurrent = 0;
 		data.save();
+		newVersion = new versionModel();
+		newVersion.version = req.body.version;
+		newVersion.isCurrent = 1;
+		newVersion.download = 0;
+		newVersion.update_content = req.body.update_content;
+		newVersion.locationNum = data.locationNum;
+		newVersion.save();
+		res.end();
+	});
+});
+
+router.get('/versionCurrentDelete', function(req, res){
+	versionModel.find({isCurrent:1},function (err,data){
+		for (var i = 0; i < data.length; i++) {
+			data[i].isCurrent = 0;
+			data[i].save();
+		}
+		
+		res.end();
 	});
 });
 
 
-router.get('/downloadUpdate', function(req, res){
-	versionModel.findOne(function (err,data){		
+router.post('/versionCreate', function(req, res) {
+	newVersion = new versionModel();
+	newVersion.version = req.body.version;
+	newVersion.isCurrent = 1;
+	newVersion.download = 0;
+	newVersion.update_content = req.body.update_content;
+	newVersion.locationNum = req.body.locationNum;
+	// console.log(req.body.update_content);
+	newVersion.save();
+	res.end();
+});
+
+        
+        
+
+
+router.get('/versionGet', function(req, res) {
+	versionModel.findOne({isCurrent : 1}, function (err,data){
 		res.send(data);
+		res.end();
+	});
+});
+
+router.post('/downloadUpdate', function(req, res){
+	versionModel.findOne({version:req.body.version}, function (err,data){		
 		if (data) {
 			data.download++;
 			data.save();
@@ -47,13 +89,15 @@ router.get('/downloadUpdate', function(req, res){
 	});
 });
 
-router.get('/getDownload', function(req, res){
-	versionModel.find(function (err,data){
-		console.log(data);
+router.post('/specificVersion', function(req, res){
+	versionModel.findOne({version:req.body.version}, function (err,data){
+		// console.log(data);
 		res.send(data);
 		res.end();
 	});
 });
+
+
 
 
 
@@ -254,7 +298,7 @@ router.post('/commentCreate', function(req, res) {
   		if (data) {
   			indexPre = {indexNew : data.comment.length};
 
-  			data.comment.push({ index : data.comment.length, body: req.body.content, updateTime: new Date(), like : 0 });
+  			data.comment.push({ mark : req.body.mark, index : data.comment.length, body: req.body.content, updateTime: new Date(), like : 0 });
 
 	  		data.updateTime = new Date();
 	  		data.lastComment = req.body.content;
@@ -282,6 +326,7 @@ router.post('/groupQuery', function(req, res) {
 	});
 });
 
+
 router.post('/groupExist', function(req, res) {
 	commentModel.findOne({location : req.body.location, title : req.body.title}, function(err, data) {
 		if (err) return console.error(err);
@@ -293,7 +338,7 @@ router.post('/groupExist', function(req, res) {
 
 router.post('/groupCreate', function(req, res) {
 	
-	commentModel.findOne({location : req.body.location, title : req.body.title}, function(err, data) {
+	commentModel.findOne({ location : req.body.location, title : req.body.title}, function(err, data) {
 		var returnJson;
 		
 		if (data) {
@@ -316,19 +361,21 @@ router.post('/groupCreate', function(req, res) {
 	// console.log(newGroup);
 });
 
-router.get('/versionGet', function(req, res) {
-	res.send({version : version});
-	res.end();
-});
-
 router.get('/locationQuery', function(req, res) {
 
-	 commentModel.find({groupType : {"$lt" : 2}}, '_id location title groupType lastComment updateTime').sort({location : 1}).exec(function (err, data) {
+	 commentModel.find({groupType : {"$lt" : 2}}, '_id location subclass title groupType lastComment updateTime').sort({location : 1}).exec(function (err, data) {
 	 	if (err) return console.error(err);
 	 	
-	 	var sdata = new Array();
-	 	for (var i = 0; i < newTrans.length; i++) 
-	 		sdata.push(data[newTrans[i]]);
+	 	// var sdata = new Array();
+
+	 	// for (var i = 0; i < newTrans.length; i++) 
+	 	// 	sdata.push(data[newTrans[i]]);
+   // 		res.send(sdata);
+   		var sdata =  new Array();
+   		for (var c = 0; c < 4; c++)
+	   		for (var i = 0; i < data.length; i++)
+	   			if (data[i].subclass == c)
+	   				sdata.push(data[i]);
    		res.send(sdata);
    		
    		res.end();
@@ -336,11 +383,46 @@ router.get('/locationQuery', function(req, res) {
 	
 });
 
+router.post('/specificLocationQuery', function(req, res) {
+	// console.log(req);
+	
+	commentModel.find({subclass : req.body.subclass, groupType : 0}, '_id location subclass title groupType lastComment updateTime').sort({updateTime : 1}).exec(function (err, data) {
+		// console.log(data);
+		if (err) return console.error(err);
+
+  		res.send(data);
+  		res.end();
+	});
+});
+
+
+
+// router.post('/locationCreate', function(req, res) {
+// 	var newGroup = new commentModel({location : req.body.location, comment : [], groupType : 0, title : req.body.locationName, lastComment : ""});
+// 	newGroup.save();
+// 	res.end();
+// });
 
 router.post('/locationCreate', function(req, res) {
-	var newGroup = new commentModel({location : req.body.location, comment : [], groupType : 0, title : req.body.locationName, lastComment : ""});
-	newGroup.save();
-	res.end();
+	versionModel.findOne({isCurrent : 1}, function(err, data) {
+		var newGroup = new commentModel({subclass : 0, location : data.locationNum+1, comment : [], groupType : 0, title : req.body.locationName, lastComment : ""});
+		data.locationNum++;
+		data.save();
+		newGroup.save();
+		res.end();
+	});
+});
+
+
+router.post('/newLocationCreate', function(req, res) {
+	versionModel.findOne({isCurrent : 1}, function(err, data) {
+		var newGroup = new commentModel({subclass : req.body.subclass, location : data.locationNum+1, comment : [], groupType : 0, title : req.body.locationName, lastComment : ""});
+		data.locationNum++;
+		data.save();
+		
+		newGroup.save();
+		res.end();
+	});
 });
 
 router.post('/locationUpdate', function(req, res) {
@@ -374,6 +456,9 @@ router.post('/groupDegrade', function(req, res) {
 });
 
 
+
+
+
 // Like Module
 
 
@@ -393,7 +478,7 @@ router.post('/commentLikeQueryNew', function(req, res) {
   		var result = [];
   		if (data) {
 	  		for (var i = data.comment.length - 1; i >= data.comment.length - len && i >= 0; i--) {
-	  			result.push({index:data.comment[i]['index'], like :data.comment[i]['like']});
+	  			result.push({mark : data.comment[i]['mark'], index:data.comment[i]['index'], like :data.comment[i]['like']});
 	  		}
 	  	}
   		res.send(result);
@@ -419,7 +504,7 @@ router.post('/commentLikeQueryNext', function(req, res) {
   		if (data) {
 			// console.log(data.comment);
 	  		for (var i = req.body.index - 1; i >= req.body.index - len && i >= 0; i--) {
-	  			result.push({index:data.comment[i]['index'], like :data.comment[i]['like']});
+	  			result.push({mark : data.comment[i]['mark'], index:data.comment[i]['index'], like :data.comment[i]['like']});
 	  		}
 	  	}
   		res.send(result);
@@ -447,7 +532,7 @@ router.post('/commentLikeQueryUpdated', function(req, res) {
   		var result =[];
   		if (data) {
 	  		for (var i = data.comment.length - 1; i >= req.body.index && i >= 0; i--) {
-	  			result.push({index:data.comment[i]['index'], like :data.comment[i]['like']});
+	  			result.push({mark : data.comment[i]['mark'], index:data.comment[i]['index'], like :data.comment[i]['like']});
 	  		}
 	  	}
   		res.send(result);
@@ -474,7 +559,7 @@ router.post('/commentLikeQuerySection', function(req, res) {
   		if (data) {
 
 	  		for (var i = req.body.indexNew; i >= req.body.indexOld && i >= 0; i--) {
-	  			result.push({index:data.comment[i]['index'], like :data.comment[i]['like']});
+	  			result.push({mark : data.comment[i]['mark'], index:data.comment[i]['index'], like :data.comment[i]['like']});
 	  		}
 	  	}
   		res.send(result);

@@ -30,8 +30,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //download control
 app.post('/versionUpdate', query);
-app.get('/downloadUpdate', query);
-app.get('/getDownload', query);
+app.post('/versionCreate', query);
+app.post('/specificVersion', query);
+app.post('/downloadUpdate', query);
+app.get('/versionCurrentDelete',query);
+// app.get('/getDownload', query);
+app.get('/versionGet', query);
 // comments query
 app.post('/commentQueryNew', query);
 app.post('/commentQueryNext', query);
@@ -57,6 +61,8 @@ app.post('/commentCreate', query);
 
 // large group opreation
 app.post('/locationCreate', query);
+app.post('/newlocationCreate', query);
+app.post('/specificLocationQuery', query);
 app.post('/locationUpdate', query);
 app.get('/locationQuery', query);
 
