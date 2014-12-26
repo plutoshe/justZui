@@ -95,7 +95,7 @@ updated Weibo, Weiming regular updater
 
 
 ===============================12/27/2014===============================
-===============================version4.1===============================
+===============================version5.0===============================
 ########
 Updated Version Module
 current version type : { isCurrent : Number, version : String, download : Number, update_content : String, locationNum : Number }
